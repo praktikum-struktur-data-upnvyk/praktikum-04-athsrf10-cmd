@@ -89,23 +89,96 @@ void tutupSemuaTab(CNode*& head) {
 
 // SOAL 1
 bool bukaHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    DNode* baru = new DNode;
+    baru->data = nomor;
+    baru->next = nullptr;
+    baru->prev = nullptr;
+
+    if (head == nullptr) {
+        head = baru;
+        tail = baru;
+    }
+    else {
+        baru->prev = tail;
+        tail->next = baru;
+        tail = baru;
+    }
+    return true;
 }
 
 // SOAL 2
 int riwayatMundur(DNode* tail, int* keluaran) {
-    return 0;
+    int jumlah = 0;
+    DNode* p = (tail != nullptr) ? tail->prev : nullptr;
+
+    while (p != nullptr)
+    {
+        keluaran[jumlah] = p->data;
+        jumlah++;
+        p = p->prev;
+    }
+    return jumlah;
+
 }
 
 // SOAL 3
 bool hapusHalaman(DNode*& head, DNode*& tail, int nomor) {
-    return false;
+    DNode* p = head;
+
+    while (p != nullptr && p->data != nomor) {
+        p = p->next;
+    }
+    if (p == nullptr) {
+        return false;
+    }
+    if (p == head) {
+        head = p->next;
+        if (head != nullptr) {
+            head->prev = nullptr;
+        }
+    }
+    else {
+        p->prev->next = p->next;
+    }
+    if (p == tail) {
+        tail = p->prev;
+
+        if (tail != nullptr) {
+            tail->next = nullptr;
+        }
+    }
+    delete p;
+
+    return true;
 }
 
 // SOAL 4
 bool bukaTab(CNode*& head, int nomor) {
+    CNode* baru = new CNode;
+    if (baru == nullptr)
     return false;
+
+    baru->data = nomor;
+
+    if (head == nullptr)
+    {
+        head = baru;
+        baru->next = baru;
+    }
+    else
+    {
+        CNode* terakhir = head;
+        while (terakhir->next != head)
+        {
+            terakhir = terakhir->next;
+        }
+        terakhir->next = baru;
+        baru->next = head;
+    }
+
+    return true;
 }
+
 
 // =============================================================================
 // MAIN() — memeragakan pagi di loket. TIDAK dinilai, bebas diubah.
